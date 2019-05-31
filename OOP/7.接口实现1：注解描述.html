@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // js定义接口3种方式
+    // 1.注解描述的方法
+    // 优点：程序员可以有个参考
+    // 缺点：还是属于文档的范畴，太松散，没有检查接口的方法是否完全被实现
+
+    /**
+     *    interface Composite{
+     *      function add(obj);
+     *      function remove(obj);
+     *      function update(obj);
+     *    }
+     */
+
+    //  CompositeImpl implements Composite
+    var CompositeImpl = function () {
+
+    }
+    CompositeImpl.prototype.add = function (obj) {
+      // do something...
+    }
+    CompositeImpl.prototype.remove = function (obj) {
+      // do something...
+    }
+    CompositeImpl.prototype.update = function (obj) {
+      // do something...
+    }
+
+    var c1 = new CompositeImpl();
+    var c2 = new CompositeImpl();
+    console.log(c1.add == c2.add);
+  </script>
+</body>
+
+</html>

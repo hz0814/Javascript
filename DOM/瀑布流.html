@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      /* margin: 10px; */
+      padding: 10px;
+      float: left;
+      /* background: #ccc; */
+    }
+
+    .box img {
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <div class="box"><img src="http://k.zol-img.com.cn/sjbbs/7692/a7691515_s.jpg" alt=""></div>
+    <div class="box"><img src="http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic9.nipic.com/20100923/2531170_140325352643_2.jpg" alt=""></div>
+    <div class="box"><img src="http://img3.redocn.com/tupian/20150312/haixinghezhenzhubeikeshiliangbeijing_3937174.jpg"
+        alt=""></div>
+    <div class="box"><img src="http://pic32.nipic.com/20130902/13395269_103525238102_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic18.nipic.com/20120204/8339340_144203764154_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic38.nipic.com/20140226/2457331_112835004364_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic31.nipic.com/20130801/11604791_100539834000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic40.nipic.com/20140423/11693248_221326322000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://s2.sinaimg.cn/middle/60bf1eaagb701b0890451&690" alt=""></div>
+    <div class="box"><img src="http://i2.w.yun.hjfile.cn/doc/201303/78ebff0b-3b4b-4695-93b7-4b5f62312ce6_08.jpg" alt="">
+    </div>
+    <div class="box"><img src="http://k.zol-img.com.cn/sjbbs/7692/a7691515_s.jpg" alt=""></div>
+    <div class="box"><img src="http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic9.nipic.com/20100923/2531170_140325352643_2.jpg" alt=""></div>
+    <div class="box"><img src="http://img3.redocn.com/tupian/20150312/haixinghezhenzhubeikeshiliangbeijing_3937174.jpg"
+        alt=""></div>
+    <div class="box"><img src="http://pic32.nipic.com/20130902/13395269_103525238102_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic18.nipic.com/20120204/8339340_144203764154_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic38.nipic.com/20140226/2457331_112835004364_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic31.nipic.com/20130801/11604791_100539834000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://pic40.nipic.com/20140423/11693248_221326322000_2.jpg" alt=""></div>
+    <div class="box"><img src="http://s2.sinaimg.cn/middle/60bf1eaagb701b0890451&690" alt=""></div>
+    <div class="box"><img src="http://i2.w.yun.hjfile.cn/doc/201303/78ebff0b-3b4b-4695-93b7-4b5f62312ce6_08.jpg" alt="">
+    </div>
+  </div>
+
+
+  <script src="./js/node_modules/jquery/dist/jquery.js"></script>
+  <script>
+    $(function () {
+      var allBox = $('#main .box');
+      // outerWidth() 不包含margin
+      // innerWidth() 不包含margin border
+      // width()      不包含margin border padding
+      var boxWidth = allBox.outerWidth();  //一个盒子的宽度
+      var screenWidth = $(window).width();  //可见区域的宽度
+      var cols = parseInt(screenWidth / boxWidth);  //列数
+      var heightArr = [];  //获取高度
+      $.each(allBox, function (index, item) {
+        var boxHeight = $(item).outerHeight();
+        if (index < cols) {
+          heightArr[index] = boxHeight;
+        } else {
+          // 最小高度
+          var minBoxHeight = Math.min.apply(Math.min, heightArr);
+          // 最小高度索引：$.inArray(value,arr) 数组中查找指定的值 并返回索引(没有找到返回-1)
+          var minHeightIndex = $.inArray(minBoxHeight, heightArr);
+          $(item).css({
+            position: 'absolute',
+            left: minHeightIndex * boxWidth + 'px',
+            top: minBoxHeight + 'px',
+          })
+          // 最小高度更新
+          heightArr[minHeightIndex] += boxHeight;
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>

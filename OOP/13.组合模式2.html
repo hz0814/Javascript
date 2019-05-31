@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 组合模式重构代码
+
+    //组合模式应用的场景和特点：
+    // 场景：
+    // 1. 存在一批组织或某种层次体系的对象
+    // 2.希望对这批对象或其中一部分对象实施一个操作
+
+    // 应用特点：
+    // 1.组合模式中只有两种对象类型：组合对象，叶子对象
+    // 2.这两种对象都实现同一批接口
+    // 3.一般我们会在组合对象中调用方法并隐式调用下级对象的方法(一般采用递归)
+
+    /**
+     *场景模拟：
+     *  ->公司
+     *        ->财务部门：
+     *                  ->张三
+     *                  ->张四
+     *                  ->张五
+     *        ->销售部门：
+     *                  ->张六
+     *                  ->张七
+     *
+     * 实际的任务是落实到人上去实施的，也就是说只有人才具有具体的方法实现
+     */
+
+
+    var CompositeInterface = new BH.Interface('CompositeInterface', ['addChild', 'getChild']);
+    var LeafInterface = new BH.Interface('LeafInterface', ['hardworking', 'sleeping']);
+
+    var Composite = function (name) {
+      this.name = name;
+      this.type = 'Composite';    //说明对象的类型(组合对象)
+      this.children = [];         //承袭孩子的数组
+    }
+    Composite.prototype = {
+      constructor: Composite,
+      addChild: function (child) {
+        this.children.push(child);
+        return this;
+      },
+      getChild: function (name) {
+        var elements = [];  // 接受叶子对象数组
+        // 判断对象是否是Leaf类型的，如果不是继续调用该函数
+        var pushLeaf = function (item) {
+          if (item.type === 'Composite') {
+            item.children.each(arguments.callee);
+          } else if (item.type === 'Leaf') {
+            elements.push(item);
+          }
+        }
+        // 根据name 让指定name下的所有类型为Leaf的对象去执行操作
+        if (name && this.name !== name) {
+          this.children.each(function (item) {
+            // 如果传递的是2级节点名称
+            if (item.name === name && item.type === 'Composite') {
+              item.children.each(pushLeaf);
+            }
+            // 如果传递的是2级、3级。。。N级节点
+            if (item.name !== name && item.type === 'Composite') {
+              item.children.each(arguments.callee);
+            }
+            // 如果传递的节点是叶子节点
+            if (item.name === name && item.type === 'Leaf') {
+              elements.push(item);
+            }
+          })
+        }
+        // 不传递name 让整个公司所有类型为Leaf的对象去执行操作
+        else {
+          this.children.each(pushLeaf);
+        }
+        return elements;
+      },
+      hardworking: function (name) {
+        // 得到所有的Leaf类型对象
+        var leafObjects = this.getChild(name);
+        for (var i = 0, len = leafObjects.length; i < len; i++) {
+          leafObjects[i].hardworking();
+        }
+      },
+      sleeping: function (name) {
+        // 得到所有的Leaf类型对象
+        var leafObjects = this.getChild(name);
+        for (var i = 0, len = leafObjects.length; i < len; i++) {
+          leafObjects[i].sleeping();
+        }
+      },
+    }
+
+    var Leaf = function (name) {
+      this.name = name;
+      this.type = 'Leaf';       //说明对象的类型(叶子对象)
+    }
+    Leaf.prototype = {
+      constructor: Leaf,
+      addChild: function (child) {
+        throw new Error('this method is disabled...');
+      },
+      getChild: function (name) {
+        if (this.name == name) {
+          return this;
+        }
+        return null;
+      },
+      hardworking: function () {
+        console.log(this.name + '...努力工作');
+      },
+      sleeping: function () {
+        console.log(this.name + '....睡觉');
+      },
+    }
+
+    var p1 = new Leaf('z1');
+    var p2 = new Leaf('z2');
+    var p3 = new Leaf('z3');
+    var p4 = new Leaf('z4');
+    var p5 = new Leaf('z5');
+    var p6 = new Leaf('z6');
+
+    var dep1 = new Composite('开发部门');
+    dep1.addChild(p1).addChild(p2).addChild(p3);
+    var dep2 = new Composite('销售部门');
+    dep2.addChild(p4).addChild(p5).addChild(p6);
+
+    var org = new Composite('bjsxt');
+    org.addChild(dep1).addChild(dep2);
+
+    org.hardworking('销售部门');
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>

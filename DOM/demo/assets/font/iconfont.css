@@ -1,0 +1,25 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1559121312926'); /* IE9 */
+  src: url('iconfont.eot?t=1559121312926#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOwAAsAAAAACAAAAANkAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqDWIMrATYCJAMMCwgABCAFhG0HRRsAB8gOJSHxwAAAgAFlPPy3X7tvZnYX8wZJtfvpJPGGpyLWaYFDI1RC8VBofz47v0k2VPVPe9KXPQvmTSYf3BzYSmpdRdVdeZ3xP/fuubnA5gXKZa5l0TsBxgEFNMbkIiuQL+hfYXh10Dt1m0CLIWuoNkurm4FBYS0KxDVLDwBDzqK0sEKTvl6zM//HM9BqSjfqFwB4Cn8ffyAxDCS1zLpr67RkGOR/at/MJ5T/CujOClCmc0HYR8Y0oBDHtZ5dRJyZRmjRNJr28roipKni/ytCia6q2//wSIKos2rbwDiTTXxqXUmqnU9lVy19uFAdWo0XALybhr6hwaYJt9Ea2dbW5bDIz/OC0UCEELeFVijhhocVT0LZoWbz4ejqunPawuGGs+F55kjrowgViOY9joapSoFU2+BFKn7bGeXs9vOBc+0RrfWEecBUdC01nxaRnekb2mw3HszVHHyYYr/9eIH20KMx5YzJdnsuRrv/vNl+dxa0tww2m81i0467D94RaRv3OexBuC5jlzAQ507cpH734iiVf666bhlf+ympdN/WI1UtwH59f9X4vtjST1VL+Zra81T+OzY7nqVfwOV+QM/X1K1mJ9jimno6dZRLYDvjxVyw9sA1uoRxOBtj2lmHe+eZfxVuxz+HiGzMzBH+nor/n3/lKj4sVhctcY26GlyP6pSKelwzyyGNa8B40A+gUogIoTC5W8Q5out3/o039Ziqz5791dBawIdHOkLDlaIBeJUmCUH686Qgouhyy5qL6pW/0TrZCcOrMWmxA1RMoMfr4bp+nUXo+lNIGgYhazKMKrhpqGm1DHVNVqDFlLL9rXohhCjNmLSRQOhyGZIOr5B1eYkquFdQM+At1HUFAS22w31iq9FgTUUIDmA4TA6Ok+yQLFGOHZui+kZI+4UBlJWH7FaIfGycTIiNL+bLoATRFGt8I3QixhRJIVkkS8l9UBBk0otkDg7hWAZjb2ZcHFX3odghWQQmGxBoAAYNIw0aR2INkUkovz9mKn2/EUTzEwxALV01wVYQ4sMOT0oQKx5AlWkkqOtWxvuMoCXCMIqdR0FkIlIpdUGCnZGRvPXTONAQLBYzIOWVKY7pRaGa2OV14vsdgBbWW3KkyFG0n0EEpQlGlugxVjILrA+vTVg7JHvHAQA=') format('woff2'),
+  url('iconfont.woff?t=1559121312926') format('woff'),
+  url('iconfont.ttf?t=1559121312926') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1559121312926#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gerenzhongxin:before {
+  content: "\e61e";
+}
+
+.icon-list-1-copy:before {
+  content: "\e605";
+}
+

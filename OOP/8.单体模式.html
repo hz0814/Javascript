@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 单体模式(singleton)
+    // 1.简单单体模式
+    //补充：划分命名空间
+    var Singleton = {
+      attr1: true,
+      attr2: 10,
+      method1: function () {
+        alert('方法1');
+      }
+    }
+
+    // 2.借用闭包创建单体：闭包主要目的保护数据
+    // 命名空间
+    var BHX = {};
+    BHX.Singleton = (function () {
+      // 添加自己的私有成员
+      var a1 = true;
+      var a2 = 10;
+      var f1 = function () {
+        alert('f1');
+      }
+      // 把块级作用域里的执行结果赋值给单体对象
+      return {
+        attr1: a1,
+        attr2: a2,
+        method1: function () {
+          return f1();
+        }
+      }
+    })();
+    alert(BHX.Singleton.attr1);
+    BHX.Singleton.method1();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 简单原型
+    function Person() {
+
+    }
+
+    Person.prototype = {
+      // constructor:Person,  //必须表示原型对象的构造器
+      name: 'z3',
+      job: '程序员',
+      say: function () {
+        alert('say')
+      }
+    }
+
+    // ECMA5 给原型对象重新设置构造器 Object.defineProperty();
+    // FF4+ IE8+
+    // 3个参数  参数1：重设的对象   参数2：设置的属性   参数3：options配置项
+    Object.defineProperty(Person.prototype, 'constructor', {
+      enumerable: false,
+      value: Person
+    })
+
+    var p1 = new Person();
+    //  遍历不会有constructor
+    for (var attr in p1) {
+      console.log(attr)
+    }
+
+    // 动态原型模式(让代码都封装到一起)
+    function Person(name, age, friends, job) {
+      this.name = name;
+      this.age = age;
+      this.friends = friends;
+      this.job = job;
+      // 动态原型方法
+      if (typeof this.sayName != 'function') {
+        Person.sayName = function () {
+          console.log(this.name);
+        }
+      }
+    }
+
+    // 稳妥构造函数 durable object(稳妥对象) 应用在对安全要求高的环境中
+    // 1.没有公共属性 2.不能使用this对象
+    function Per(name) {
+      // 创建一个要返回的对象
+      var obj = new Object();
+      // 可以定义私有变量和函数private
+      var name = name;
+      // var sex='男';
+      // var say=function (){}
+
+      // 添加一个方法
+      obj.sayName = function () {
+        console.log(name)
+      }
+      return obj;
+    }
+  </script>
+</body>
+
+</html>

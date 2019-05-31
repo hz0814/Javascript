@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 门面模式概念：简化api接口
+
+    // 做一件事：必须调用两个函数a,b
+    function a(x) {
+      // do something
+    }
+    function b(y) {
+      // do something
+    }
+
+    function ab(x, y) {
+      a(x);
+      b(y);
+    }
+
+
+    window.onload = function () {
+      // 给多个元素设置同个样式
+      setStyle(['div1', 'div2', 'div3'], 'color', 'blue');
+      // 给多个元素设置多个样式
+      setCss(['div1', 'div2', 'div3'], {
+        backgroundColor: 'pink',
+        fontSize: '24px'
+      })
+    }
+    // 简单的门面模式
+    function setStyle(elementsId, prop, val) {
+      for (var i = 0; i < elementsId.length; i++) {
+        document.getElementById(elementsId[i]).style[prop] = val;
+      }
+    }
+
+    // 门面模式的css方法
+    function setCss(elementsId, options) {
+      for (var prop in options) {
+        if (!options.hasOwnProperty(prop)) continue;
+        setStyle(elementsId, prop, options[prop]);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="div1">我是div1</div>
+  <div id="div2">我是div2</div>
+  <div id="div3">我是div3</div>
+</body>
+
+</html>

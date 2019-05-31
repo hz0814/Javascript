@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // extend方法：继承1次父类模板，一次父类原型对象
+    // 只继承一遍父类的原型对象
+    function extend(sub, sup) {
+      // 目的：实现只继承父类的原型对象
+      var F = new Function();           //1.创建一个空函数 目的：进行中转
+      F.prototype = sup.prototype;      //2.实现空函数的原型对象和超类的原型对象转换
+      sub.prototype = new F();          //3.原型继承
+      sub.prototype.constructor = sub;  //4.还原子类构造器
+      // 保存父类原型对象：1.方便解耦 2.方便获得父类的原型对象
+      sub.superClass = sup.prototype;     //自定义子类的一个静态属性
+      // 判断父类原型对象构造器
+      if (sup.prototype.constructor == Object.prototype.constructor) {
+        sup.prototype.constructor = sup;
+      }
+    }
+
+
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    Person.prototype = {
+      constructor: Person,
+      sayHello: function () {
+        console.log('hello world');
+      }
+    }
+
+    function Boy(name, age, sex) {
+      // 解耦 Person.call(...) 
+      Boy.superClass.constructor.call(this, name, age);
+      this.sex = sex;
+    }
+    
+    extend(Boy, Person);
+    // 给子类添加原型对象方法
+    Boy.prototype.sayHello = function () {
+      console.log('hello javascript');
+    }
+    var b = new Boy('z3', 20, '男');
+    console.log(b.name, b.sex);
+    b.sayHello();//调用子类方法
+    Boy.superClass.sayHello.call(b);//调用父类方法
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // js中实现继承：采用原型链的概念
+
+    // 构造函数 原型对象 实例对象
+
+    // 1.构造函数.prototype=原型对象
+    // 2.原型对象.constructor=构造函数
+    // 3.原型对象.isPrototypeOf(实例对象) 判断实例对象的原型是不是当前对象
+
+    // 如果让原型对象等于另一个类的实例呢
+
+    // 父类构造函数
+    function Sup(name) {
+      this.name = name;
+    }
+    // 父类的原型对象
+    Sup.prototype = {
+      constructor: Sup,
+      sayName: function () {
+        console.log(this.name);
+      }
+    }
+
+    // 子类构造函数
+    function Sub(age) {
+      this.age = age;
+    }
+
+    // 1.此时的原型对象将包含一个指向另一个原型的指针
+    // 2.相应的另一个原型中也包含指向另一个构造函数的指针
+    // 子类的原型对象构造器变成了父类的构造器
+    Sub.prototype = new Sup('z3');
+    // alert(Sub.prototype.constructor)
+    var sub1=new Sub();
+    alert(sub1.name);
+
+  </script>
+</body>
+
+</html>

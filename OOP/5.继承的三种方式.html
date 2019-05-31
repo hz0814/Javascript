@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 原型继承
+    // 继承的特点：继承了父类的模板，又继承了父类的原型对象
+    // 父类
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    // 父类的原型对象属性
+    Person.prototype.id = 10;
+    // 子类
+    function Boy(sex) {
+      this.sex = sex;
+    }
+    // 实现继承
+    Boy.prototype = new Person('z3');
+    var b1 = new Boy();
+    console.log(b1.name);
+    console.log(b1.id);
+
+
+    // 类继承
+    // 特点：只继承模板，不继承原型对象(借用构造函数的方式继承)
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    // 父类的原型对象属性
+    Person.prototype.id = 10;
+    // 子类
+    function Boy(name, age, sex) {
+      // call apply
+      Person.call(this, name, age);
+      this.sex = sex;
+    }
+    var b2 = new Boy('z3', 20, '男');
+    console.log(b2.name, b2.age, b2.sex);
+
+
+    // 原型继承+借用构造函数继承=混合继承(缺点：继承了2次父类模板，一次原型对象)
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    // 父类的原型对象属性
+    Person.prototype.id = 10;
+    // 子类
+    function Boy(name, age, sex) {
+      // call apply
+      Person.call(this, name, age);//1.借用构造函数继承
+      this.sex = sex;
+    }
+    // 2.原型继承
+    Boy.prototype=new Person();
+
+  </script>
+</body>
+
+</html>

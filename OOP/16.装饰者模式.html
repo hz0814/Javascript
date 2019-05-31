@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 装饰者模式：
+    // 实现同样的接口
+    // 需要有子类
+
+    var CarInterface = new BH.Interface('CarInterface', ['getPrice', 'assemble']);
+    var Car = function (car) {
+      // 为了让子类继承(让子类多一个父类的引用)
+      this.car = car;
+      // 检查接口
+      BH.Interface.ensureImplements(this, CarInterface);
+    }
+    Car.prototype = {
+      constructor: Car,
+      getPrice: function () {
+        return 200000;
+      },
+      assemble: function () {
+        console.log('组装汽车。。。');
+      }
+    }
+
+    // 新的需求：light,icebox....
+
+    var LightDecorator = function (car) {
+      // 借用构造函数继承
+      LightDecorator.superClass.constructor.call(this, car);
+    }
+    BH.extend(LightDecorator, Car);//原型继承
+
+    LightDecorator.prototype = {
+      constructor: LightDecorator,
+      getPrice: function () {
+        return this.car.getPrice() + 10000;
+      },
+      assemble: function () {
+        console.log('组装车灯。。。');
+      }
+    }
+
+    var IceboxDecorator = function (car) {
+      // 借用构造函数继承
+      IceboxDecorator.superClass.constructor.call(this, car);
+    }
+    BH.extend(IceboxDecorator, Car);//原型继承
+    IceboxDecorator.prototype = {
+      constructor: IceboxDecorator,
+      getPrice: function () {
+        return this.car.getPrice() + 20000;
+      },
+      assemble: function () {
+        console.log('组装车载冰箱。。。');
+      }
+    }
+
+    var car = new Car();
+    console.log(car.getPrice());
+    car.assemble();
+
+    car = new LightDecorator(car);
+    console.log(car.getPrice());
+    car.assemble();
+
+    car = new IceboxDecorator(car);
+    console.log(car.getPrice());
+    car.assemble();
+
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

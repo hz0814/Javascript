@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    Array.prototype.each = function (fn) {
+      try {
+        // 1.目的：遍历数组每一项，计数器：记录当前遍历元素位置
+        this.i || (this.i = 0);
+        // 2.严谨的判断什么时候走each核心方法
+        // 当数组的长度大于0 && 传递的参数为函数
+        if (this.length > 0 && fn.constructor == Function) {
+          // 循环遍历每一项
+          while (this.i < this.length) {
+            // 获取数组每一项
+            var e = this[this.i];
+            // 如果当前元素去到了并且为数组
+            if (e && e.constructor == Array) {
+              e.each(fn);
+            } else {
+              fn.apply(e, [e]);
+            }
+            this.i++;
+          }
+          this.i = null;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return this;
+    }
+
+    var arr = [1, 2, 3, [4, [5, [6]]]];
+    // var arr = [1, 2, 3];
+    arr.each(function (item) {
+      console.log(item);
+    })
+  </script>
+</body>
+
+</html>

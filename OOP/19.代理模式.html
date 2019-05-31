@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 代理模式(proxy)：代理也是对象，目的是为了节制(控制)对本体对象的访问
+
+    // 图书馆(本体对象，实例化图书馆需要消耗很多的资源)
+    var LibraryInterface = new BH.Interface('LibraryInterface', ['addbook', 'findbook', 'checkoutbook', 'returnbook']);
+
+    var Book = function (id, title, author) {
+      this.id = id;
+      this.title = title;
+      this.author = author;
+    }
+
+
+
+    var Library = function (books) {
+      this.books = books;
+    }
+    Library.prototype = {
+      constructor: Library,
+      addbook: function (book) {
+        this.books[book.id] = book;
+      },
+      findbook: function (id) {
+        if (this.books[id]) {
+          return this.books[id];
+        }
+        return null;
+      },
+      checkoutbook: function (id) {
+        // 电脑登记，交押金。。。
+        return this.books[id];
+      },
+      returnbook: function (book) {
+        // 电脑登记(已还)
+        // 计算余额
+        this.books[book.id] = book;
+      }
+    }
+
+    // 图书馆的代理对象
+    var LibraryProxy = function (books) {
+      console.log('产生代理对象');
+      this.books = books;
+      this.library = null;  //定义一个空对象
+    }
+    LibraryProxy.prototype = {
+      constructor: LibraryProxy,
+      initializeLibrary: function () {
+        if (this.library == null) {
+          console.log('真正本体对象建立');
+          this.library = new Library(this.books);
+        }
+      },
+      addbook: function (book) {
+        this.initializeLibrary();
+        this.library.addbook(book);
+      },
+      findbook: function (id) {
+        this.initializeLibrary();
+        return this.library.findbook(id);
+      },
+      checkoutbook: function (id) {
+        this.initializeLibrary();
+        return this.library.checkoutbook(id);
+      },
+      returnbook: function (book) {
+        this.initializeLibrary();
+        return this.library.returnbook(book);
+      }
+    }
+
+    // 实例化代理对象:推迟本体对象实例化的时间，什么时候具体去做事情了，再去实例化他
+    var proxy = new LibraryProxy({
+      "01": new Book("01", "java", "z3"),
+      "02": new Book("02", "js", "z4"),
+    })
+    console.log(proxy.findbook('02').author);
+  </script>
+</head>
+
+<body>
+  <div id="mydiv"></div>
+</body>
+
+</html>

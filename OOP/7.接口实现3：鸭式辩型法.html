@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 实现接口的第三种方式：鸭式辩型法实现接口(最完美的javascript实现接口方式)
+    // 核心：一个类实现接口的主要目的：把接口里的方法都实现(检测方法)
+    // 完全面向对象 代码也实现统一  也解耦了
+
+    // 一、  接口类 Class Interface ==>实例化N个接口
+
+    /**
+     * 接口需要2个参数
+     * 参数1：接口的名字(string)
+     * 参数2：接受方法名称的集合(数组)
+     */
+    var Interface = function (name, methods) {
+      // 判断接口的参数个数
+      if (arguments.length != 2) {
+        throw new Error('arguments must be 2 length');
+      }
+      this.name = name;
+      this.methods = [];//定义一个内置的空数组对象 等待接受methods的元素(方法名字)
+      for (var i = 0, len = methods.length; i < len; i++) {
+        if (typeof methods[i] !== 'string') {
+          throw new Error('name must be string');
+        }
+        this.methods.push(methods[i]);
+      }
+    }
+
+    // 二、准备工作
+
+    // 1.实例化接口对象
+    var CompositeInterface = new Interface('CompositeInterface', ['add', 'remove']);
+    var FormItemInterface = new Interface('FormItemInterface', ['update', 'select']);
+
+    // 2.具体的实现类
+    // CompositeImpl implements CompositeInterface,FormItemInterface
+    var CompositeImpl = function () {
+
+    }
+    // 3.接口实现的方法
+    CompositeImpl.prototype.add = function (obj) {
+      // do something...
+      console.log('add');
+    }
+    CompositeImpl.prototype.remove = function (obj) {
+      // do something...
+      console.log('remove');
+    }
+    CompositeImpl.prototype.update = function (obj) {
+      // do something...
+      console.log('update');
+    }
+    CompositeImpl.prototype.select = function (obj) {
+      // do something...
+      console.log('select');
+    }
+
+    // 三、检验接口里的方法
+    // 如果通过则不做任何操作，否则抛异常
+    // 检测方法
+    Interface.ensureImplements = function (object) {
+      // 如果检测方法接受的参数小于2个，参数传递失败
+      if (arguments.length < 2) {
+        throw new Error('arguments must be >=2');
+      }
+      // 获得接口实例对象
+      for (var i = 1, len = arguments.length; i < len; i++) {
+        var instanceInterface = arguments[i];
+        if (instanceInterface.constructor !== Interface) {
+          throw new Error('the arguments not be Interface');
+        }
+        for (var j = 0; j < instanceInterface.methods.length; j++) {
+          // 用一个临时变量 接受每一个方法的名字
+          var methodName = instanceInterface.methods[j];
+          if (!object[methodName] || typeof (object[methodName]) !== 'function') {
+            throw new Error('this method "' + methodName + '" not found');
+          }
+        }
+      }
+    }
+
+    var c1 = new CompositeImpl();
+    Interface.ensureImplements(c1, CompositeInterface, FormItemInterface);
+    c1.add();
+  </script>
+</body>
+
+</html>

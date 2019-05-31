@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="container">
+    <canvas id="canvas">浏览器不支持canvas</canvas>
+  </div>
+  <script>
+    (function () {
+      var canvas = document.querySelector('#canvas');
+      var ctx = canvas.getContext('2d');
+
+      canvas.width = 600;
+      canvas.height = 600;
+      canvas.style.border = '1px solid #000';
+
+      var rectH = 10;
+      ctx.lineWidth=0.5;
+      // 第一步：绘制横线
+      for (var i = 0; i < canvas.height / rectH; i++) {
+        ctx.moveTo(0, i * rectH); //如果不设置moveTo,当前画笔没有位置
+        ctx.lineTo(canvas.width, i * rectH);
+        // 第二步：绘制竖线
+        ctx.moveTo(i * rectH, 0); //如果不设置moveTo,当前画笔没有位置
+        ctx.lineTo(i * rectH, canvas.height);
+      }
+      // 第二步：绘制竖线
+      // for (var i = 0; i < canvas.width / rectH; i++) {
+      //   ctx.moveTo(i * rectH, 0); //如果不设置moveTo,当前画笔没有位置
+      //   ctx.lineTo(i * rectH, canvas.height);
+      // }
+      ctx.stroke();
+    })()
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 适配器模式可用来在现有接口和不兼容的类之间进行适配
+
+    // 简单的适配器
+    // 新电脑(usb)  <----- ps2-to-usb ------> 鼠标和键盘
+
+    var obj = {     //鼠标和键盘
+      str1: '111',
+      str2: '222',
+      str3: '333',
+    }
+    // 适配器方法
+    function adapter(obj) {
+      interfaceMethod(obj.str1, obj.str2, obj.str3);
+    }
+    // 新电脑
+    function interfaceMethod(x, y, z) {
+      // 复杂的操作。。。
+    }
+
+
+    // prototype库 $方法(不需要传递形参，一个id一个参数，多个id多个参数)
+    function $() {
+      var elements = [];
+      for (var i = 0; i < arguments.length; i++) {
+        var element = arguments[i];
+        if (typeof element == 'string') {
+          element = document.getElementById(element);
+        }
+        if (arguments.length == 1) {
+          return element;
+        }
+        elements.push(element);
+      }
+      return elements;
+    }
+    // YUI  get function(传递了一个参数：类型不是字符串就是数组)
+    var YAHOO = {};
+    YAHOO.get = function (el) {
+      if (typeof el == 'string') {
+        return document.getElementById(el);
+      }
+      if (el instanceof Array) {
+        var elements = [];
+        for (var i = 0; i < el.length; i++) {
+          elements[elements.length] = YUHOO.get(el[i]);
+        }
+        return elements;
+      }
+      if (el) {
+        return el;
+      }
+      return null;
+    }
+
+    YAHOO.get = YUItoPrototypeAdapter;
+    function YUItoPrototypeAdapter() {
+      // 对于YUI开发人员，永远传一个参数
+      if (arguments.length == 1) {
+        var e = arguments[0];
+        return $.apply(window, e instanceof Array ? e : [e]);
+      } else {
+        return $.apply(window, arguments);
+      }
+    }
+
+    window.onload = function () {
+
+      // prototype习惯写法
+      // var domArr = $('div1', 'div2');
+      // YAHOO习惯写法
+      // var domArr = YAHOO.get(['div3','div1']);
+
+      // 适配器
+      var domArr1 = YAHOO.get('div3');
+      var domArr2 = YAHOO.get('div3', 'div1');
+      var domArr3 = YAHOO.get(['div3', 'div1']);
+      console.log(domArr1, domArr2, domArr3);
+    }
+
+  </script>
+</head>
+
+<body>
+  <div id="div1">我是div1</div>
+  <div id="div2">我是div2</div>
+  <div id="div3">我是div3</div>
+</body>
+
+</html>

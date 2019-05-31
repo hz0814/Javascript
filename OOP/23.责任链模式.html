@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    //  做项目  ->项目经理  ->task  项目组(A,B,C,D)
+
+    // 任务的类(发送者)
+    var Assign = function (task) {
+      this.task = task;
+    };
+
+    // 接受任务的类
+    var WorkFlow = function (assign) {
+      this.assign = assign;
+    }
+    WorkFlow.prototype = {
+      constructor: WorkFlow,
+      // 分析当前的任务到底谁能去分析
+      filterHandler: function (es) {
+        for (var i = 0, len = es.length; i < len; i++) {
+          // 如果当前的任务刚好是你这个人比较擅长的 那就直接执行
+          if (this.assign.task === es[i].cando) {
+            return es[i].todo();
+          }
+        }
+        return;
+      }
+    }
+
+    // 处理者
+    var Executor = function (name, cando) {
+      this.name = name; //接受者的姓名
+      this.cando = cando; // 擅长的任务
+    }
+    Executor.prototype = {
+      constructor: Executor,
+      todo: function () {
+        document.write(this.name + '开发：' + this.cando);
+      }
+    }
+
+    // 实例化处理对象
+    var e1 = new Executor('小A', 'js编程');
+    var e2 = new Executor('小B', 'css编程');
+    var e3 = new Executor('小C', 'java编程');
+    var e4 = new Executor('小D', 'sql编程');
+
+    // 实例化任务对象
+    var assign = new Assign('java编程');
+    // 处理任务的类实例
+    var wf = new WorkFlow(assign);
+    wf.filterHandler([e1, e2, e3, e4]);
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

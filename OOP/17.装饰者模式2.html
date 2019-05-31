@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 装饰者模式：不仅可以用在类上，还可以用在函数上
+
+    // 返回一个当前字符串表现形式
+    function getDate() {
+      return (new Date()).toString();
+    }
+
+    // 包装函数(装饰者函数)
+    function upperCaseDecorator(fn) {
+      return function () {
+        return fn.apply(this, arguments).toUpperCase();
+      }
+    }
+
+    console.log(getDate());
+    var getDecoratorDate = upperCaseDecorator(getDate);
+    console.log(getDecoratorDate());
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

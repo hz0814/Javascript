@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+</head>
+
+<body>
+  <script>
+    // 细粒度 和 粗粒度
+    // 万事万物都是Object：买什么车 ->  商店 ->  卖车  ->  生产车  ->  Factory
+
+    // 搭建一个工厂环境
+    // 卖车的商店 奥迪4S店，奔驰4S店，宝马4s店
+    // Super Shop 卖车
+    // abstract Class
+    function CarShop() { };
+    CarShop.prototype = {
+      constructor: CarShop,
+      sellCar: function (type) {
+        // var car = CarFactory.createCar(type);
+        // return car;
+        this.abstractSellCar(type);
+      },
+      abstractSellCar: function () {
+        throw new Error('this method is abstract...');
+      }
+    }
+
+    // Benz 4S店
+    function BenzCarShop() { };
+    BH.extend(BenzCarShop, CarShop);
+    BenzCarShop.prototype = {
+      constructor: BenzCarShop,
+      sellCar: function (type) {
+        var car;  //声明一个变量
+        var types = ['Benz'];  //所有类型的Benz汽车
+      }
+    }
+
+    // 生产车的工厂 目的是生产车
+    // 单体模式
+    var CarFactory = {
+      createCar: function (type) {
+        var car;
+        // switch (type) {
+        //   case 'Benz': car = new Benz(); break;
+        //   case 'Bmw': car = new Bmw(); break;
+        //   case 'Audi': car = new Audi(); break;
+        //   default: 'not buy it';
+        // }
+
+        // 利用eval动态创建传入实例对象
+        car=eval('new '+type+'()');
+
+        // 检验接口实现
+        BH.Interface.ensureImplements(car, CarInterface);
+        return car;
+      }
+    }
+
+    // 接口对象的实例
+    var CarInterface = new BH.Interface('CarInterface', ['start', 'run']);
+
+    // SuperClass implements CarInterface
+    function BaseCar() { };
+    BaseCar.prototype = {
+      constructor: BaseCar,
+      start: function () {
+        console.log(this.constructor.name + '...start');
+      },
+      run: function () {
+        console.log(this.constructor.name + '...run');
+      }
+    }
+
+    // Class benz bmw audi
+    function Benz() { };
+    // 注意关键问题，子类先继承父类，再扩展自己的方法
+    BH.extend(Benz, BaseCar);
+    Benz.prototype.driveBenz = function () { console.log('Benz...drive') };
+    // Benz.prototype.start = function () { console.log('Benz....start') };
+    // Benz.prototype.run = function () { console.log('Benz....run') };
+
+    function Bmw() { };
+    BH.extend(Bmw, BaseCar);
+    Bmw.prototype.driveBmw = function () { console.log('Bmw...drive') };
+    // Bmw.prototype.start = function () { console.log('Bmw....start') };
+    // Bmw.prototype.run = function () { console.log('Bmw....run') };
+
+    function Audi() { };
+    BH.extend(Audi, BaseCar);
+    Audi.prototype.driveAudi = function () { console.log('Audi...drive') };
+    // Audi.prototype.start = function () { console.log('Audi....start') };
+    // Audi.prototype.run = function () { console.log('Audi....run') };
+
+    var shop = new CarShop();
+    var car = shop.sellCar('Benz');
+    car.start();
+    car.run();
+    car.driveBenz();
+    var car2 = shop.sellCar('Bmw');
+    car2.start();
+    car2.run();
+    car2.driveBmw();
+  </script>
+</body>
+
+</html>

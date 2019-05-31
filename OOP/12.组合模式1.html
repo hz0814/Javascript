@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./commons/CommonUtil.js"></script>
+  <script>
+    // 组合模式是一种专门为创建Web上的动态用户界面而量身定制的模式。
+    // 使用这种模式可以用一条命令在多个对象上激发复杂的或递归的行为。
+    // 好处：1.你可以用同样的方法处理对象的集合与其中的特定子对象。
+    // 2.它可以用来把一批子对象组织成树形结构，并且使整棵树都可以被遍历
+
+    /**
+     *场景模拟：
+     *  ->公司
+     *        ->财务部门：
+     *                  ->张三
+     *                  ->张四
+     *                  ->张五
+     *        ->销售部门：
+     *                  ->张六
+     *                  ->张七
+     *
+     * 实际的任务是落实到人上去实施的，也就是说只有人才具有具体的方法实现
+     */
+
+    var Org = function (name) {
+      this.name = name;
+      this.depts = [];
+    }
+    Org.prototype = {
+      constructor: Org,
+      addDepts: function (child) {
+        this.depts.push(child);
+        return this;
+      },
+      getDepts: function () {
+        return this.depts;
+      }
+    }
+
+    var Dept = function (name) {
+      this.name = name;
+      this.persons = [];
+    }
+    Dept.prototype = {
+      constructor: Dept,
+      addPersons: function (child) {
+        this.persons.push(child);
+        return this;
+      },
+      getPersons: function () {
+        return this.persons;
+      }
+    }
+
+    var Person = function (name) {
+      this.name = name;
+    }
+    Person.prototype = {
+      constructor: Person,
+      hardworking: function () {
+        console.log(this.name + '...努力工作');
+      },
+      sleeping: function () {
+        console.log(this.name + '....睡觉');
+      }
+    }
+
+    var p1 = new Person('z1');
+    var p2 = new Person('z2');
+    var p3 = new Person('z3');
+    var p4 = new Person('z4');
+    var p5 = new Person('z5');
+    var p6 = new Person('z6');
+
+    var dep1 = new Dept('开发部门');
+    dep1.addPersons(p1).addPersons(p2).addPersons(p3);
+    var dep2 = new Dept('销售部门');
+    dep2.addPersons(p4).addPersons(p5).addPersons(p6);
+
+    var org = new Org('bjsxt');
+    org.addDepts(dep1).addDepts(dep2);
+
+    // 需求：具体让某一人工作
+    for (var i = 0, depts = org.getDepts(); i < depts.length; i++) {
+      for (var j = 0, persons = depts[i].getPersons(); j < persons.length; j++) {
+        if (persons[j].name === 'z3') {
+          persons[j].hardworking();
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>
